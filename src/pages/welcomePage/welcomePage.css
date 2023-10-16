@@ -61,3 +61,10 @@
     height: auto; /* 图片高度将自适应宽度 */
   }
   
+  .fixed-image-gender { 
+    position: absolute;  
+    top: 1907px; /* 距离顶部的距离，根据需要调整 */ 
+    left: 899px; /* 距离左侧的距离，根据需要调整 */ 
+    width: 827px; /* 图片宽度，根据需要调整 */ 
+    height: auto; /* 图片高度将自适应宽度 */ 
+  }
