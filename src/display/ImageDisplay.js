@@ -22,12 +22,24 @@ class ImageDisplay extends Component {
       images.push(imageFileNames.splice(0, 8));
     }
 
+    const containerStyle = {
+      marginTop: '180px', // Adjust the margin as needed
+      marginLeft:"140px",
+      maxHeight:"100%",
+      overflow:"auto"
+    };
+
+    const imageStyle = {
+      marginRight: '70px', // Adjust the spacing between images as needed
+      marginBottom:"40px"
+    };
+
     return (
-      <div className="image-display">
+      <div className="image-display" style={containerStyle}>
         {images.map((row, rowIndex) => (
           <div key={rowIndex} className="image-row" style={{ display: 'flex' }}>
             {row.map((imageFileName, colIndex) => (
-              <div key={colIndex} className="image-container" style={{ marginRight: colIndex < 7 ? '10px' : '0' }}>
+              <div key={colIndex} className="image-container" style={colIndex < 7 ? {  marginRight: '70px',marginBottom:"40px" } : imageStyle}>
                 <img
                   src={require(`../pictures/${imageFileName}`)}
                   alt={`Image ${rowIndex * 8 + colIndex + 1}`}
