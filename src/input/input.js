@@ -3,19 +3,45 @@ import {Button, Input, Select, Space, ConfigProvider, } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 class InputButton extends Component {
-    render() {
-      // Array of image filenames (replace with your image filenames)
-        const imageFileNames = 'image1.png'
+    constructor(props) {
+        super(props);
+        this.state = {
+        inputValue: '',
+    };}
+
+    handleInputChange = (e) => {
+        this.setState({
+            isComponentVisible: e.target.value,
+        })
+    };
     
+    handleButtonClick = () => {
+        // 在这里使用inputValue
+        console.log('Input Value:', this.state.inputValue);
+    };
+
+    render() {
         return (
             <div className="input-button">
-                    <div
-                    style={{
-                        display:'flex'
+                    <div style={{display:'flex'}}>
+                    <ConfigProvider
+                        theme={{
+                        components: {
+                            colorBorder:'#FFFFFF',
+                            Button: {
+                                defaultBorderColor:'#FFFFFF',
+                            },
+                            Input: {
+                            //colorPrimary: '#eb2f96',
+                            activeBorderColor:'#FFFFFF',
+                            hoverBorderColor:'#FFFFFF',
+                            colorBorder:'#FFFFFF',
+                            }
+                        },
                         }}
                     >
                         <Input 
-                        bordered='false'
+                        onChange={this.handleInputChange}
                         style={{
                         width: '975px',
                         height: '160px',
@@ -23,17 +49,9 @@ class InputButton extends Component {
                         paddingLeft:'48px',
                         fontSize: '48px'
                         }}
-                    defaultValue="|输入prompt" />
-                    <ConfigProvider
-                        theme={{
-                        token: {
-                        borderColorDisabled: 'false',
-                        },
-                        }}
-                    >
+                        defaultValue="|输入prompt" />
                         <Button 
                         bordered
-                        borderColorDisabled='false'
                         style={{
                             width: '180px',
                             height: '160px',

@@ -1,0 +1,41 @@
+.welcomePage {
+    background-position: center;
+    width: 1448px;
+    height: 2587px;
+    margin:auto;
+    margin-top: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+}
+
+.editing-image{
+    /* position: absolute; */
+    margin:auto;
+    margin-top: 140px;
+    display: flex;
+    height: 2587px; /* 图片宽度，根据需要调整 */
+    width: auto; /* 图片高度将自适应宽度 */
+}
+/* 文本样式 */
+.text-container {
+text-align: center;
+}
+
+.name {
+    position: absolute;
+    font-size: 128px;
+    color: rgb(255, 254, 254); /* 更改文本颜色 */
+    top: 1987px; /* 距离顶部的距离，根据需要调整 */
+    left: 220px; /* 距离左侧的距离，根据需要调整 */
+    text-align: left;
+}
+
+.intro-text {
+position: absolute;
+font-size: 68px; /* 更改字体大小 */
+color: rgb(255, 252, 252); /* 更改文本颜色 */
+top: 2440px; /* 距离顶部的距离，根据需要调整 */
+left: 850px; /* 距离左侧的距离，根据需要调整 */
+}
