@@ -1,8 +1,10 @@
 .edited-image{
-    /* position: absolute; */
+    position: absolute;
     margin:auto;
     margin-top: 140px;
+    margin-left: 140px;
     display: flex;
     height: 2587px; /* 图片宽度，根据需要调整 */
-    width: auto; /* 图片高度将自适应宽度 */
+    width: 1448px; /* 图片高度将自适应宽度 */
 }
+

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './commentPage.css'; // 导入CSS样式文件
-
+import InputButton from '../../input/input'
 class CommentPage extends Component {
 
   render() {
@@ -11,11 +11,7 @@ class CommentPage extends Component {
             src={require(`../../pictures/image1.png`)} 
             className="edited-image"
          />
-
-
-
-     
-
+         {/* <InputButton className="input-button"/> */}
       </div>
     );
   }

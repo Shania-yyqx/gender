@@ -7,6 +7,7 @@ class InputButton extends Component {
         super(props);
         this.state = {
         inputValue: '',
+        text:this.props.message
     };}
 
     handleInputChange = (e) => {
@@ -21,6 +22,7 @@ class InputButton extends Component {
     };
 
     render() {
+        const {text}=this.state
         return (
             <div className="input-button">
                     <div style={{display:'flex'}}>
@@ -49,7 +51,7 @@ class InputButton extends Component {
                         paddingLeft:'48px',
                         fontSize: '48px'
                         }}
-                        defaultValue="|输入prompt" />
+                        defaultValue={text} />
                         <Button 
                         bordered
                         style={{

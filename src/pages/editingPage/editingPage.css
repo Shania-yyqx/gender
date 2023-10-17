@@ -39,3 +39,31 @@ color: rgb(255, 252, 252); /* 更改文本颜色 */
 top: 2440px; /* 距离顶部的距离，根据需要调整 */
 left: 850px; /* 距离左侧的距离，根据需要调整 */
 }
+
+.overlay {
+    position: fixed;
+    top: 140px;
+    left: 140px;
+    width: 1448px;
+    height: 2587px;
+    background-color: rgba(255, 255, 255, 0.45); /* 白色蒙板，可调整透明度 */
+    /* z-index: 9999; 确保蒙板位于其他内容上方 */
+  }
+
+.commentInput{
+    position: absolute;
+    top: 140px;
+    left: 640px;
+    width: 148px;
+    height: 2587px;
+}
+  
+.intro{
+    position: absolute;
+    font-size: 98px;
+    color: rgb(229, 224, 224); /* 更改文本颜色 */
+    top: 87px; /* 距离顶部的距离，根据需要调整 */
+    left: 220px; /* 距离左侧的距离，根据需要调整 */
+    max-width: 1000px;
+    text-align: left;
+}
