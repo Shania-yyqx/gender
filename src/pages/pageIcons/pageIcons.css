@@ -6,26 +6,30 @@
   
   .name {
     position: absolute;
-    font-size: 128px;
+    font-size: 150px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 111.5%; 
     color: rgb(255, 254, 254); /* 更改文本颜色 */
-    top: 1987px; /* 距离顶部的距离，根据需要调整 */
+    top: 2030px; /* 距离顶部的距离，根据需要调整 */
     left: 220px; /* 距离左侧的距离，根据需要调整 */
     text-align: left;
   }
 
   .intro-text {
     position: absolute;
-    font-size: 68px; /* 更改字体大小 */
+    font-size: 48px; /* 更改字体大小 */
     color: rgb(255, 252, 252); /* 更改文本颜色 */
-    top: 2440px; /* 距离顶部的距离，根据需要调整 */
-    left: 850px; /* 距离左侧的距离，根据需要调整 */
+    top: 2542px; /* 距离顶部的距离，根据需要调整 */
+    left: 1051px; /* 距离左侧的距离，根据需要调整 */
   }
 /* 图片样式 */
   
   .fixed-image-gender { 
     position: absolute;  
-    top: 1907px; /* 距离顶部的距离，根据需要调整 */ 
-    left: 899px; /* 距离左侧的距离，根据需要调整 */ 
-    width: 827px; /* 图片宽度，根据需要调整 */ 
-    height: auto; /* 图片高度将自适应宽度 */ 
+    top: 2365px; /* 距离顶部的距离，根据需要调整 */ 
+    left: 1251px; /* 距离左侧的距离，根据需要调整 */ 
+    width: 220px; /* 图片宽度，根据需要调整 */ 
+    height: 141.43px; /* 图片高度将自适应宽度 */ 
+
   }

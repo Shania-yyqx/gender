@@ -20,7 +20,7 @@ class PageIcons extends Component {
         <div className="pics-container">
           {/* 男女图标 */}
           <img
-            src={require(`./gender.png`)} 
+            src={require(`./genderxiangsu.png`)} 
             className="fixed-image-gender"
           />
         </div>
