@@ -1,4 +1,6 @@
+import './App.css'
 import React from 'react';
+import './font/fangzhengxiangsu.TTF'
 import { Layout } from 'antd';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // 导入 React Router 相关组件
 import ImageDisplay from './display/ImageDisplay';
@@ -8,11 +10,12 @@ import PageIcons from './pages/pageIcons/pageIcon';
 import EditPage from './pages/editingPage/editingPage'
 
 const { Sider, Content } = Layout;
+const fontStyle = "'fangzhengxiangsu', sans-serif"
 
 function App() {
   return (
     <Router>
-      <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black' }}>
+      <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black',fontFamily:fontStyle }}>
         <Sider width={1740} style={{ backgroundColor: 'black' }}>
           <Switch>
             <Route exact path="/" component={WelcomePage} />

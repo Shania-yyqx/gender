@@ -49,7 +49,8 @@ class InputButton extends Component {
                         height: '160px',
                         borderRadius: '90px 0px 0px 90px',
                         paddingLeft:'48px',
-                        fontSize: '48px'
+                        fontSize: '48px',
+                        fontFamily:"'fangzhengxiangsu', sans-serif",
                         }}
                         defaultValue={text} />
                         <Button 
