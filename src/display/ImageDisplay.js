@@ -54,17 +54,20 @@
 
 import React, { Component } from 'react';
 import { Image } from 'antd';
+import { connect } from 'react-redux';
+
 
 class ImageDisplay extends Component {
   render() {
+    let modifiedNum = this.props.modifyNumList;  
     // Array of image filenames (replace with your image filenames)
     let fileNum = 34;
 
     const imagesData = [];
     //记录每张图被修改的次数
-    const modifiedNum = Array(fileNum).fill(0);
-    modifiedNum[0]=2
-    modifiedNum[1]=1
+    // const modifiedNum = Array(fileNum).fill(0);
+    // modifiedNum[0]=2
+    // modifiedNum[1]=1
 
     for (let i = 1; i <= fileNum; i++) {
       const originalImage = `image${i}.png`;
@@ -101,7 +104,8 @@ class ImageDisplay extends Component {
                 style={colIndex < imageRow.length - 1 ? { marginRight: '70px', marginBottom: '40px' } : imageStyle}
               >
                 <Image
-                  src={require(`../pictures/${imageFileName}`)}
+                  // src={require(`../pictures/${imageFileName}`)}
+                  src={`http://localhost:6002/resultImages/${imageFileName}`}
                   alt={`Image ${rowIndex * fileNum + colIndex + 1}`}
                   width={325}
                   height={543}
@@ -115,4 +119,9 @@ class ImageDisplay extends Component {
   }
 }
 
-export default ImageDisplay;
+// export default ImageDisplay;
+const mapStateToProps = state => ({
+  modifyNumList: state.modifyNumList
+});
+
+export default connect(mapStateToProps)(ImageDisplay);

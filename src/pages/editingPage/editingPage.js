@@ -3,7 +3,8 @@ import InputButton from '../../input/input';
 import {Button, Input, Select, Space, ConfigProvider, Spin } from 'antd';
 import './editingPage.css'
 import { withRouter } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { modifyNumList, setImageName } from '../../redux/actions';  // 根据实际路径更新
 
 class EditPage extends Component {
     constructor(props) {
@@ -221,7 +222,7 @@ class EditPage extends Component {
         console.log("payload:", payload)
 
         const imageID = randomNum;
-        const modifyNum = 2;
+        const modifyNum = this.props.modifyNumList[imageID-1] + 1;
 
         // 发送请求
         // 为了避免跨域请求，在服务端调用sd
@@ -236,6 +237,9 @@ class EditPage extends Component {
         .then(data => {
             console.log(data); // 这里将返回“Image saved successfully”、图片名或错误消息
             console.log('imageName:', data.imageName);  // 输出图片名称
+            this.props.setImageNameAction( data.imageName);
+            this.props.modifyNumListAction(imageID-1, modifyNum);
+            // http://localhost:6002/resultImages/image8-2.png
             this.setState({
                 isLoading: false,
                 isComponentVisible: false
@@ -442,5 +446,18 @@ class EditPage extends Component {
     }
 }
 
-// export default EditPage; // 注意组件名称的大写字母开头
-export default withRouter(EditPage);
+const mapStateToProps = state => ({
+    modifyNumList: state.modifyNumList,
+    imageName: state.imageName
+  });
+  
+const mapDispatchToProps = dispatch => ({
+    modifyNumListAction: (index, value) => dispatch(modifyNumList(index, value)),
+    setImageNameAction: (name) => dispatch(setImageName(name))
+});
+  
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditPage));
+
+// // export default EditPage; // 注意组件名称的大写字母开头
+// export default withRouter(EditPage);
+

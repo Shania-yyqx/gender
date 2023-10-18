@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { useHistory } from 'react-router-dom';
 import {Button, Input, ConfigProvider, } from 'antd';
 import './commentPage.css'; // 导入CSS样式文件'
+import { connect } from 'react-redux';
+
 class CommentPage extends Component {
   constructor(props) { 
     super(props);
@@ -31,12 +33,15 @@ class CommentPage extends Component {
 
   render() {
     let{imagepath}=this.state
+    let imageName = this.props.imageName;  
+
     return (
       <div className="commentPage"> 
       {/* 获取到修改后的图片, image1换成imagepath */}
         <img
-            src={require(`../../pictures/image1.png`)} 
+            src={`http://localhost:6002/resultImages/${imageName}`} 
             className="edited-image"
+            alt=''
         />
         <div style={{
           position:'absolute',
@@ -97,4 +102,9 @@ class CommentPage extends Component {
   }
 }
 
-export default CommentPage; // 注意组件名称的大写字母开头
+const mapStateToProps = state => ({
+  imageName: state.imageName
+});
+
+export default connect(mapStateToProps)(CommentPage);
+// export default CommentPage; // 注意组件名称的大写字母开头
