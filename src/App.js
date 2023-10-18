@@ -1,8 +1,8 @@
-import './App.css'
-import React from 'react';
-import './font/fangzhengxiangsu.TTF'
+// App.js
+import React, { useState } from 'react';
+import './font/fangzhengxiangsu.TTF';
 import { Layout } from 'antd';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // 导入 React Router 相关组件
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ImageDisplay from './display/ImageDisplay';
 import WelcomePage from './pages/welcomePage/welcomePage';
 import CommentPage from './pages/commentPage/commentPage';
@@ -14,19 +14,25 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 
 const { Sider, Content } = Layout;
-const fontStyle = "'fangzhengxiangsu', sans-serif"
+const fontStyle = "'fangzhengxiangsu', sans-serif";
 
 function App() {
+  const [dataFromChild, setDataFromChild] = useState(null);
+
+  const handleDataFromChild = (data) => {
+    setDataFromChild(data);
+  }
+
   return (
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
     <Router>
-      <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black',fontFamily:fontStyle }}>
+      <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}>
         <Sider width={1740} style={{ backgroundColor: 'black' }}>
           <Switch>
-            <Route exact path="/" component={WelcomePage} />
+            <Route exact path="/welcome" component={WelcomePage} />
             <Route exact path="/comment" component={CommentPage} />
-            <Route exact path="/edit" component={EditPage} />
+            <Route exact path="/" render={() => <EditPage sendDataToParent={handleDataFromChild} />} />
           </Switch>
           <PageIcons />
         </Sider>

@@ -63,10 +63,13 @@ text-align: center;
   
 .intro{
     position: absolute;
-    font-size: 98px;
-    color: rgb(229, 224, 224); /* 更改文本颜色 */
-    top: 87px; /* 距离顶部的距离，根据需要调整 */
+    font-size: 88px;
+    color: rgb(255, 255, 255); /* 更改文本颜色 */
+    top: 120px; /* 距离顶部的距离，根据需要调整 */
     left: 220px; /* 距离左侧的距离，根据需要调整 */
     max-width: 1000px;
     text-align: left;
+    background-color:rgb(0,0,0,0.5) ;
+    border-radius: 30px; /* 将背景设置为圆弧形 */
+    padding: 25px; /* 调整内边距，增加与边框的距离 */
 }
