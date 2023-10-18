@@ -10,14 +10,33 @@
     background-color: black;
 }
 
+.editPage {
+    position: relative;
+    height: 2587px;
+}
+
+.intro{
+    z-index: 1;
+}
+
 .editing-image{
-    /* position: absolute; */
-    margin:auto;
-    margin-top: 140px;
+    position: absolute;
+    /* margin:auto;
+    margin-top: 140px; */
+    top: 140px;   /* 模仿 margin-top: 140px; 的效果 */
+    left: 50%;    /* 水平居中的起始点 */
+    transform: translateX(-50%); /* 水平居中 */
     display: flex;
     height: 2587px; /* 图片宽度，根据需要调整 */
-    width: auto; /* 图片高度将自适应宽度 */
+    width: 1448px; /* 图片高度将自适应宽度 */
+    /* z-index: 1; */
 }
+
+canvas.editing-image {
+    position: absolute;
+    z-index: 5;
+}
+
 /* 文本样式 */
 .text-container {
 text-align: center;

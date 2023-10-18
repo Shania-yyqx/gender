@@ -53,7 +53,7 @@ class InputButton extends Component {
                         }}
                         defaultValue={text} />
                         <Button 
-                        bordered
+                        // bordered
                         style={{
                             width: '180px',
                             height: '160px',
@@ -62,7 +62,7 @@ class InputButton extends Component {
                             
                         }}type="primary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-                            <path d="M66.666 23.3333L33.3327 56.6667L16.666 40" stroke="#8D8D8D" stroke-width="8.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M66.666 23.3333L33.3327 56.6667L16.666 40" stroke="#8D8D8D" strokeWidth="8.33333" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </Button>
                         </ConfigProvider>
