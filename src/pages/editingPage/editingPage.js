@@ -153,7 +153,6 @@ class EditPage extends Component {
 
 
     handleClick = () => {
-        // console.log('按钮被点击了');
         this.setState({isCompleted:true, message:"请输入您的评论"})
     };
 
@@ -338,8 +337,6 @@ class EditPage extends Component {
                 intro = "Unknown";
             }
     
-            //  console.log(intro)
-
 
         let { isComponentVisible, position ,randomNum,isCompleted,message} = this.state;
         
