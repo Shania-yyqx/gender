@@ -19,6 +19,8 @@ class EditPage extends Component {
             drawing: false,
             mask: "",
             isLoading: false,
+            isGenerated: false, //决定显示哪些按钮和图片
+            imageName: '',  // 新增一个状态用于存储生成的图片名称
         };
         // let fileName='image'+randomNum
         this.canvasRef = React.createRef();
@@ -187,24 +189,21 @@ class EditPage extends Component {
         const imageToBase64 = await this.convertImageToBase64(imageSrc);
         // 获取Input的内容
         // console.log("before this.inputRef.current.value")
-        const prompt = this.inputRef.current.value ? this.inputRef.current.value : "";
+        // antd的input组件不能直接通过 this.inputRef.current.value 取值
+        // const prompt = this.inputRef.current.value ? this.inputRef.current.value : "";
         // console.log("this.inputRef.current.value:", this.inputRef.current.value)
+        const inputElement = this.inputRef.current.input;  // 获取原生的 input 元素
+        var prompt = ""
+        console.log("inputElement:", inputElement);
+        if (inputElement) {
+          prompt = inputElement.value;  // 获取输入值
+          console.log("Prompt value:", prompt);
+        }
 
         this.setState({
             isLoading: true
         })
-        // const imageSrcTest =
-        // const maskToBase64Test = await this.convertImageToBase64(imageSrc);
 
-        // 设置请求体
-        // const payload = {
-        //     "init_images": [imageToBase64],
-        //     "prompt": prompt,
-        //     "width": this.canvasRef.current.width,
-        //     "height": this.canvasRef.current.height,
-        //     "mask": mask,
-        //     "batch_size": 1,
-        // };
         const payload = {
             "init_images": [imageToBase64],
             "prompt": prompt,
@@ -213,8 +212,10 @@ class EditPage extends Component {
             "mask": mask,
             "batch_size": 1,
             "denoising_strength": 0.6,  //重绘幅度
+            "mask_blur": 45,  //蒙版模糊
+            "inpainting_fill": 1,  //蒙版遮住的内容， 0填充， 1原图 2潜空间噪声 3潜空间数值零
             "inpaint_full_res": false,  //inpaint area, False: whole picture True：only masked
-            "cfg_scale": 3,
+            "cfg_scale": 10,
             "steps": 25,
             "sampler_name": "DPM++ 2S a Karras"
         };
@@ -236,14 +237,22 @@ class EditPage extends Component {
         .then(data => {
             console.log(data); // 这里将返回“Image saved successfully”、图片名或错误消息
             console.log('imageName:', data.imageName);  // 输出图片名称
+            this.ctx.clearRect(0, 0, this.canvasRef.current.width, this.canvasRef.current.height);
             this.props.setImageNameAction( data.imageName);
-            this.props.modifyNumListAction(imageID-1, modifyNum);
-            // http://localhost:6002/resultImages/image8-2.png
+            // this.props.modifyNumListAction(imageID-1, modifyNum);
+            // // http://localhost:6002/resultImages/image8-2.png
+            // this.setState({
+            //     isLoading: false,
+            //     isComponentVisible: false
+            // })
+            // this.props.history.push('/comment');
             this.setState({
                 isLoading: false,
-                isComponentVisible: false
-            })
-            this.props.history.push('/comment');
+                isGenerated: true,  // 设置为 true 表示已生成图片
+                imageName: data.imageName  // 更新 imageName 状态
+            });
+            // 清除canvas上现有的路径
+            // this.ctx.clearRect(0, 0, this.canvasRef.current.width, this.canvasRef.current.height);
         })
         .catch(error => {
             console.error('错误:', error)
@@ -343,15 +352,20 @@ class EditPage extends Component {
     
 
         let { isComponentVisible, position ,randomNum,isCompleted,message} = this.state;
+
+        const modifyNum = this.props.modifyNumList[randomNum-1] + 1;
         
 
         return (
             <div className="editPage" onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}> 
                  <ConfigProvider
                     theme={{
-                        token: {
-                            contentHeight:  2587,
-                            dotSize: 400
+                        components: {
+                            Spin: {
+                                contentHeight:  2587,
+                                dotSize: 300,
+                                colorPrimary: "white"
+                            }
                         },
                     }}
                 >
@@ -391,7 +405,8 @@ class EditPage extends Component {
                                             <Input 
                                                 ref={this.inputRef}
                                                 style={{
-                                                width: '975px',
+                                                // width: '975px',
+                                                width: this.state.isGenerated ? '795px' : '975px',  // 根据 isGenerated 的值动态设置 width
                                                 height: '160px',
                                                 borderRadius: '90px 0px 0px 90px',
                                                 paddingLeft:'48px',
@@ -399,7 +414,66 @@ class EditPage extends Component {
                                                 }}
                                                 placeholder="请输入prompts" 
                                             />
-                                            <Button 
+                                            {/* <Button 
+                                                // bordered
+                                                style={{
+                                                    width: '180px',
+                                                    height: '160px',
+                                                    borderRadius: '0px 90px 90px 0px',
+                                                    background: 'white',
+                                                    
+                                                }}
+                                                type="primary"
+                                                onClick={this.handleButtonClick} 
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                                                    <path d="M66.666 23.3333L33.3327 56.6667L16.666 40" stroke="#8D8D8D" strokeWidth="8.33333" strokeLinecap="round" strokeLinejoin="round"/>
+                                                </svg>
+                                            </Button> */}
+                                              {this.state.isGenerated ? (
+                                                <div>
+                                                    <Button 
+                                                        style={{
+                                                            width: '180px',
+                                                            height: '160px',
+                                                            borderRadius: '0px 0px 0px 0px',
+                                                            background: 'white',
+                                                            
+                                                        }}
+                                                        onClick={() => {
+                                                            this.setState({ isGenerated: false });  // 重置isGenerated状态以重新生成图片
+                                                            this.handleButtonClick();
+                                                        }}
+                                                    >
+                                                        {/* < img src={require(`../../pictures/icon.png` ) } alt="Icon"   
+                                                                style={{
+                                                                width: '100%', // 图像宽度与按钮宽度相同
+                                                                height: '100%', // 图像高度与按钮高度相同
+                                                            }}/> */}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                                                            <path d="M66.666 23.3333L33.3327 56.6667L16.666 40" stroke="#8D8D8D" strokeWidth="8.33333" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        </svg>
+                                                    </Button>
+                                                    <Button 
+                                                        style={{
+                                                            width: '180px',
+                                                            height: '160px',
+                                                            borderRadius: '0px 90px 90px 0px',
+                                                            background: 'white',
+                                                            
+                                                        }}
+                                                        onClick={() => {
+                                                            this.props.modifyNumListAction(randomNum-1, modifyNum);
+                                                            this.props.history.push('/comment');
+                                                        }}
+                                                    >
+                                                         <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                                                            <path d="M66.666 23.3333L33.3327 56.6667L16.666 40" stroke="#8D8D8D" strokeWidth="8.33333" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        </svg>
+                                                    </Button>  
+                                                </div>
+                                            ):
+                                            (<Button 
                                                 // bordered
                                                 style={{
                                                     width: '180px',
@@ -415,18 +489,34 @@ class EditPage extends Component {
                                                     <path d="M66.666 23.3333L33.3327 56.6667L16.666 40" stroke="#8D8D8D" strokeWidth="8.33333" strokeLinecap="round" strokeLinejoin="round"/>
                                                 </svg>
                                             </Button>
+                                            )
+                                            }
                                             </ConfigProvider>
                                         </div>
                                 </div>
                                 </div> 
                             )} 
 
-                            <img
+                            {/* <img
                                 src={require(`../../pictures/image${randomNum}.png`)} 
                                 className="editing-image"
                                 onLoad={this.handleImageLoad}
                                 alt=""
-                            />
+                            /> */}
+                            {this.state.isGenerated ? (
+                                <img
+                                    src={`http://localhost:6002/resultImages/${this.state.imageName}`} 
+                                    className="editing-image"
+                                    alt=""
+                                />
+                            ) : (
+                                <img
+                                    src={require(`../../pictures/image${randomNum}.png`)} 
+                                    className="editing-image"
+                                    onLoad={this.handleImageLoad}
+                                    alt=""
+                                />
+                            )}
                             <canvas 
                                 ref={this.canvasRef}
                                 className="editing-image" // the canvas should have same CSS as your img to overlay perfectly

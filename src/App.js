@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './font/fangzhengxiangsu.TTF';
 import { Layout } from 'antd';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 // import store from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
+import ResetHandler from './ResetHandler'; 
 
 const { Sider, Content } = Layout;
 const fontStyle = "'fangzhengxiangsu', sans-serif";
@@ -22,6 +23,7 @@ function App() {
   const handleDataFromChild = (data) => {
     setDataFromChild(data);
   }
+
 
   return (
     <Provider store={store}>
@@ -41,6 +43,8 @@ function App() {
         </Content>
       </Layout>
     </Router>
+    {/* ResetHandler用来清除持久化数据，使用一次后注释掉 */}
+    {/* <ResetHandler />  */}
     </PersistGate>
     </Provider>
   );

@@ -1,5 +1,5 @@
 // reducers.js
-import { SET_IMAGE_NAME, MODIFY_NUM_LIST } from './actions';
+import { SET_IMAGE_NAME, MODIFY_NUM_LIST, RESET_STATE } from './actions';
 
 const initialState = {
   imageName: '',
@@ -19,6 +19,9 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         modifyNumList: state.modifyNumList.map((item, idx) => idx === index ? value : item)
       };
+    case RESET_STATE:
+        // 重置所有的state
+        return initialState;
     default:
       return state;
   }
