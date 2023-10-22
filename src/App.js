@@ -33,15 +33,21 @@ function App() {
   const isShowWelcome = ()=> {
     console.log(history)
     setShowWelcome(false);
-    history.push('/edit');
+    // history.push('/edit');
   }
 
+  useEffect(() => {
+    if (!showWelcome) {
+      history.push('/edit');
+    }
+  }, [showWelcome, history]);
+
   return (
-    <Router>
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
     
       <div>
+      <Switch>
       {showWelcome ? (
         <div style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }} onClick={isShowWelcome}>
             <Route exact path="/" component={WelcomePage} />
@@ -50,10 +56,8 @@ function App() {
       (
       <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}>
         <Sider width={1740} style={{ backgroundColor: 'black' }}>
-          <Switch>
-            <Route exact path="/edit" render={() => <EditPage sendDataToParent={handleDataFromChild} />} />
+            <Route exact path="/edit" component={EditPage} />
             <Route exact path="/comment" component={CommentPage} />
-          </Switch>
           <PageIcons />
         </Sider>
         <Content>
@@ -61,13 +65,13 @@ function App() {
         </Content>
       </Layout>
       )}
+      </Switch>
       </div>
     
     {/* ResetHandler用来清除持久化数据，使用一次后注释掉 */}
     {/* <ResetHandler />  */}
     </PersistGate>
     </Provider>
-    </Router>
   );
 }
 
