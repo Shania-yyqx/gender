@@ -243,22 +243,25 @@ class EditPage extends Component {
         // this.generateImageBySdAPI()
     }
 
+    // "width": 325,
+    // "height": 543,
     generateImageBySdAPI(){
         console.log("this.state:", this.state)
         const payload = {
             "init_images": [this.state.initImagesBase64],
             "prompt": this.state.prompt,
-            "width": 325,
-            "height": 543,
+            "width": 1448,
+            "height": 2587,
             "mask": this.state.mask,
             "batch_size": 1,
             "denoising_strength": 0.6,  //重绘幅度
-            "mask_blur": 45,  //蒙版模糊
+            "mask_blur": 15,  //蒙版模糊
             "inpainting_fill": 1,  //蒙版遮住的内容， 0填充， 1原图 2潜空间噪声 3潜空间数值零
             "inpaint_full_res": false,  //inpaint area, False: whole picture True：only masked
             "cfg_scale": 10,
             "steps": 25,
-            "sampler_name": "DPM++ 2S a Karras"
+            "sampler_name": "DPM++ 2S a Karras",
+            "restore_faces": true,
         };
         console.log("payload:", payload)
 

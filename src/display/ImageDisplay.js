@@ -64,8 +64,8 @@ class ImageDisplay extends Component {
             {imageRow.map((imageFileName, colIndex) => (
               <div key={colIndex} className="image-container" style={imageStyle}>
                 <img
-                  src={`http://localhost:6002/resultImages/${imageFileName}`}
-                  alt={`Image ${rowIndex * fileNum + colIndex + 1}`}
+                  src={`http://localhost:6002/resultImages/${imageFileName}?${new Date().getTime()}`}
+                  alt={`gallery ${rowIndex * fileNum + colIndex + 1}`}
                   width={325}
                   height={543}
                   // onClick={() => {
@@ -82,6 +82,7 @@ class ImageDisplay extends Component {
 
                 <img
                   src={CommentIcon}
+                  alt=""
                   width={65}
                   height={55}
                   onClick={() => showComments(imageFileName, rowIndex, colIndex)} 
@@ -95,7 +96,7 @@ class ImageDisplay extends Component {
             <div className="image-popup">
               <img
                 src={`http://localhost:6002/resultImages/${this.state.selectedImageIndex}`}
-                alt="Popup Image"
+                alt="Popup Img"
                 width={ 780}
                 height={ 1303}
               />
