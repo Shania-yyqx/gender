@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './imageDisplay.css';
+import { updateCurrentImageID } from '../redux/actions';  // 根据实际路径更新
+import { withRouter } from 'react-router-dom';
+import CommentIcon from './CommentIcon.png'; 
 
 class ImageDisplay extends Component {
   constructor(props) {
@@ -12,9 +15,10 @@ class ImageDisplay extends Component {
   }
 
   render() {
+    console.log("modifyNumList",this.props.modifyNumList)
     let comments = new Array(34);
-    comments[0] = ['nice try', 'this is sooo interesting，this is sooo interesting，this is sooo interesting'];
-    comments[2] = ['good choice'];
+    // comments[0] = ['nice try', 'this is sooo interesting，this is sooo interesting，this is sooo interesting'];
+    // comments[2] = ['good choice'];
 
     let modifiedNum = this.props.modifyNumList;
     let fileNum = 34;
@@ -44,7 +48,7 @@ class ImageDisplay extends Component {
 
     const showComments = (fileName,rowIndex,colIndex) => {
       this.setState({ selectedImageIndex: fileName });
-      this.setState({comment:comments[rowIndex][colIndex] })
+      this.setState({comment:this.props.commentList[rowIndex][colIndex] })
       console.log("这里rowIndex,colIndex， filename",fileName,rowIndex,colIndex)
     };
 
@@ -64,7 +68,23 @@ class ImageDisplay extends Component {
                   alt={`Image ${rowIndex * fileNum + colIndex + 1}`}
                   width={325}
                   height={543}
-                  onClick={() => showComments(imageFileName, rowIndex, colIndex)}
+                  // onClick={() => {
+                  //   console.log("ImageDisplay commentList:", this.props.commentList[rowIndex][colIndex])
+                  // }}  
+                  onClick={() => {
+                    console.log("ImageDisplay rowIndex:", rowIndex)
+                    // 双击后edit这张图片
+                    this.props.updateCurrentImageID(rowIndex+1);
+                    this.props.history.push("/edit")
+                  }}
+                  // onDoubleClick={() => showComments(imageFileName, rowIndex, colIndex)} 
+                />
+
+                <img
+                  src={CommentIcon}
+                  width={65}
+                  height={55}
+                  onClick={() => showComments(imageFileName, rowIndex, colIndex)} 
                 />
               </div>
             ))}
@@ -88,8 +108,13 @@ class ImageDisplay extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+// export default ImageDisplay;
+const mapStateToProps = state => ({
   modifyNumList: state.modifyNumList,
+  commentList: state.commentList,
+});
+const mapDispatchToProps = dispatch => ({
+  updateCurrentImageID: (currentImgIndex) => dispatch(updateCurrentImageID(currentImgIndex)),
 });
 
-export default connect(mapStateToProps)(ImageDisplay);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ImageDisplay));

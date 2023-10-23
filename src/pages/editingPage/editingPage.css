@@ -29,6 +29,10 @@
     display: flex;
     height: 2587px; /* 图片宽度，根据需要调整 */
     width: 1448px; /* 图片高度将自适应宽度 */
+    user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
     /* z-index: 1; */
 }
 

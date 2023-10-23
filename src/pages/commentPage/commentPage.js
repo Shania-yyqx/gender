@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import {Button, Input, ConfigProvider, } from 'antd';
 import './commentPage.css'; // 导入CSS样式文件'
 import { connect } from 'react-redux';
+import { addComment, updateCurrentImageID } from '../../redux/actions';  // 根据实际路径更新
 
 class CommentPage extends Component {
   constructor(props) { 
@@ -11,29 +12,62 @@ class CommentPage extends Component {
       inputValue: '',
       inputValueList:[],
       imagepath:this.props.imagepath
-  };}
+    };
+    this.commentInputRef = React.createRef(); // 创建ref
+  }
 
-  handleInputChange = (e) => {
-    this.setState({
-        inputValue: e.target.value,
-    })
-  };
+  // handleInputChange = (e) => {
+  //   this.setState({
+  //       inputValue: e.target.value,
+  //   })
+  // };
 
   handleButtonClick = () => {
       // 在这里使用inputValue
-      if (this.state.inputValue.length > 0){
-        this.state.inputValueList.push(this.state.inputValue)
-        console.log('Input Value:', this.state.inputValue);
-        console.log('Input Value List:', this.state.inputValueList);
+      // if (this.state.inputValue.length > 0){
+      //   this.state.inputValueList.push(this.state.inputValue)
+      //   console.log('Input Value:', this.state.inputValue);
+      //   console.log('Input Value List:', this.state.inputValueList);
+      // }
+      const commentInputElement = this.commentInputRef.current.input;  // 获取原生的 input 元素
+      var comment = ""
+      console.log("commentInputElement:", commentInputElement);
+      if (commentInputElement) {
+        comment = commentInputElement.value;  // 获取输入值
+        console.log("comment value:", comment);
       }
-      const history = this.props.history;
-      history.push('/');
+      this.props.addComment(this.props.currentImageIndex - 1, comment)
+      const picNum=34; 
+      var randomNum = Math.floor(Math.random() * picNum) + 1;
+      this.props.updateCurrentImageID(randomNum)
+      const history = this.props.history; 
+      history.push('/edit');
   };
 
 
   render() {
     let{imagepath}=this.state
     let imageName = this.props.imageName;  
+    console.log("commentPage this.props.currentImageIndex,", this.props.currentImageIndex)
+
+    // 记录当前时间并转成时间戳
+    let now = new Date().getTime();
+    // 从缓存中获取用户上次退出的时间戳
+    let leaveTime = parseInt(localStorage.getItem('leaveTime'), 10);
+    // 判断是否为刷新，两次间隔在5s内判定为刷新操作
+    let refresh = (now - leaveTime) <= 3000;
+    // 测试alert
+    if(refresh){
+        this.props.history.push("/")
+    }
+    window.onbeforeunload = function(e){
+        if(e) e.returnValue=("重新加载此网站？系统可能不会保存你所做的更改");
+        return "重新加载此网站？??系统可能不会保存你所做的更改"
+
+    }
+    window.onunload = function(){
+        localStorage.setItem('leaveTime', new Date().getTime());
+    };
 
     return (
       <div className="commentPage"> 
@@ -67,7 +101,8 @@ class CommentPage extends Component {
                         }}
                     >
                         <Input 
-                        onChange={this.handleInputChange}
+                        // onChange={this.handleInputChange}
+                        ref={this.commentInputRef}
                         style={{
                         width: '975px',
                         height: '160px',
@@ -103,8 +138,15 @@ class CommentPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  imageName: state.imageName
+  imageName: state.imageName,
+  commentList: state.commentList,
+  currentImageIndex: state.currentImageIndex,
 });
 
-export default connect(mapStateToProps)(CommentPage);
+const mapDispatchToProps = dispatch => ({
+  addComment: (imgIndex, commentValue) => dispatch(addComment(imgIndex, commentValue)),
+  updateCurrentImageID: (currentImageIndex) => dispatch(updateCurrentImageID(currentImageIndex)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentPage);
 // export default CommentPage; // 注意组件名称的大写字母开头
