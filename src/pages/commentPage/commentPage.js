@@ -41,7 +41,7 @@ class CommentPage extends Component {
       var randomNum = Math.floor(Math.random() * picNum) + 1;
       this.props.updateCurrentImageID(randomNum)
       const history = this.props.history; 
-      history.push('/');
+      history.push('/edit');
   };
 
 
@@ -49,6 +49,25 @@ class CommentPage extends Component {
     let{imagepath}=this.state
     let imageName = this.props.imageName;  
     console.log("commentPage this.props.currentImageIndex,", this.props.currentImageIndex)
+
+    // 记录当前时间并转成时间戳
+    let now = new Date().getTime();
+    // 从缓存中获取用户上次退出的时间戳
+    let leaveTime = parseInt(localStorage.getItem('leaveTime'), 10);
+    // 判断是否为刷新，两次间隔在5s内判定为刷新操作
+    let refresh = (now - leaveTime) <= 3000;
+    // 测试alert
+    if(refresh){
+        this.props.history.push("/")
+    }
+    window.onbeforeunload = function(e){
+        if(e) e.returnValue=("重新加载此网站？系统可能不会保存你所做的更改");
+        return "重新加载此网站？??系统可能不会保存你所做的更改"
+
+    }
+    window.onunload = function(){
+        localStorage.setItem('leaveTime', new Date().getTime());
+    };
 
     return (
       <div className="commentPage"> 

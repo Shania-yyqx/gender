@@ -64,7 +64,7 @@ class ImageDisplay extends Component {
                     console.log("ImageDisplay rowIndex:", rowIndex)
                     // 双击后edit这张图片
                     this.props.updateCurrentImageID(rowIndex+1);
-                    this.props.history.push("/")
+                    this.props.history.push("/edit")
                   }}
                 />
               </div>

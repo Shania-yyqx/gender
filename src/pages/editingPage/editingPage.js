@@ -44,20 +44,12 @@ class EditPage extends Component {
     
     componentDidMount() {
         // 当组件挂载时，检查是否是由于页面刷新导致的
-        if (window.performance.navigation.type === 1) {
-            this.props.history.push('/');
-          }
+        // if (window.performance.navigation.type === 1) {
+        //     this.props.history.push('/');
+        //   }
         // Initialize the canvas context when the component mounts
         this.ctx = this.canvasRef.current.getContext('2d');
-        // this.props.updateCurrentImageID(this.state.randomNum)
-        // var imageSrc = require(`../../pictures/image${this.state.randomNum}.png`);
-        // 将图片转为base64格式
-        // var imageToBase64 = await this.convertImageToBase64(imageSrc);
-        // this.setState({
-        //     initImagesBase64: imageToBase64
-        // })
-        // this.ctx.fillStyle = "black";
-        // this.ctx.fillRect(0, 0, this.canvasRef.current.width, this.canvasRef.current.height);
+
     }
 
     handlePointerDown = (e) => {
@@ -404,7 +396,7 @@ class EditPage extends Component {
         //         intro = "Unknown";
         //     }
     
-
+        console.log("in edit page")
         let { isComponentVisible, position ,randomNum,isCompleted,message} = this.state;
 
         let intro=''
@@ -423,6 +415,25 @@ class EditPage extends Component {
         const modifyNum = this.props.modifyNumList[currentImageIndex-1] + 1;
         // console.log("commentList:", this.props.commentList)
     
+        // 记录当前时间并转成时间戳
+        let now = new Date().getTime();
+        // 从缓存中获取用户上次退出的时间戳
+        let leaveTime = parseInt(localStorage.getItem('leaveTime'), 10);
+        // 判断是否为刷新，两次间隔在5s内判定为刷新操作
+        let refresh = (now - leaveTime) <= 3000;
+        // 测试alert
+        if(refresh){
+            this.props.history.push("/")
+        }
+        window.onbeforeunload = function(e){
+            if(e) e.returnValue=("重新加载此网站？系统可能不会保存你所做的更改");
+            return "重新加载此网站？??系统可能不会保存你所做的更改"
+
+        }
+        window.onunload = function(){
+            localStorage.setItem('leaveTime', new Date().getTime());
+        };
+
         return (
             <div className="editPage" onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}> 
                  <ConfigProvider
