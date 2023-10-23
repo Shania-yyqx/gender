@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Image } from 'antd';
 import { connect } from 'react-redux';
+import { updateCurrentImageID } from '../redux/actions';  // 根据实际路径更新
+import { withRouter } from 'react-router-dom';
 
 
 class ImageDisplay extends Component {
@@ -55,6 +57,15 @@ class ImageDisplay extends Component {
                   alt={`Image ${rowIndex * fileNum + colIndex + 1}`}
                   width={325}
                   height={543}
+                  onClick={() => {
+                    console.log("ImageDisplay commentList:", this.props.commentList[rowIndex][colIndex])
+                  }}  
+                  onDoubleClick={() => {
+                    console.log("ImageDisplay rowIndex:", rowIndex)
+                    // 双击后edit这张图片
+                    this.props.updateCurrentImageID(rowIndex+1);
+                    this.props.history.push("/")
+                  }}
                 />
               </div>
             ))}
@@ -67,7 +78,11 @@ class ImageDisplay extends Component {
 
 // export default ImageDisplay;
 const mapStateToProps = state => ({
-  modifyNumList: state.modifyNumList
+  modifyNumList: state.modifyNumList,
+  commentList: state.commentList,
+});
+const mapDispatchToProps = dispatch => ({
+  updateCurrentImageID: (currentImgIndex) => dispatch(updateCurrentImageID(currentImgIndex)),
 });
 
-export default connect(mapStateToProps)(ImageDisplay);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ImageDisplay));
