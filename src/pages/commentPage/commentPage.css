@@ -8,3 +8,24 @@
     width: 1448px; /* 图片高度将自适应宽度 */
 }
 
+.tips{
+    position:absolute;
+    top: 122px;
+    left: 1074px;
+    width: 238px;
+    height: 111px;
+    color: #FFF;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 165%; /* 59.4px */
+    letter-spacing: -0.684px;
+    z-index: 1;
+}
+
+.tipicon{
+    position:absolute;
+    top: 258px;
+    left: 1098px;
+    z-index: 1;
+}
