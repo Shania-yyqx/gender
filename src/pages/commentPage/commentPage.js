@@ -68,10 +68,19 @@ class CommentPage extends Component {
     window.onunload = function(){
         localStorage.setItem('leaveTime', new Date().getTime());
     };
+    let tipText='留下你的对性别偏见的感想'
 
     return (
       <div className="commentPage"> 
       {/* 获取到修改后的图片, image1换成imagepath */}
+      <div className='tipicon'> 
+        <svg width="102" height="102" viewBox="0 0 102 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M102 0H0V71.4H10.2V10.2H91.8V71.4H51V81.6H40.8V91.8H30.6V71.4H0V81.6H20.4V102H40.8V91.8H51V81.6H102V0Z" fill="#D9D9D9"/>
+        </svg>
+        </div>
+        <span className='tips'>
+            {tipText}
+        </span>
         <img
             src={`http://localhost:6002/resultImages/${imageName}`} 
             className="edited-image"

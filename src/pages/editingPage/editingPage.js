@@ -25,7 +25,9 @@ class EditPage extends Component {
             isEnteredPrompt: false, //决定是否显示prompt输入框
             imageName: '',  // 新增一个状态用于存储生成的图片名称
             initImagesBase64: "", //初始图片的base64格式
-            prompt : ""
+            prompt : "",
+            tipText:"请涂抹出你认为存在性别偏见的地方",
+            iconName:'painting'
         };
         // let fileName='image'+randomNum
         this.canvasRef = React.createRef();
@@ -62,6 +64,9 @@ class EditPage extends Component {
         this.ctx.beginPath();
         this.ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
         this.setState({ drawing: true });
+        if (this.state.isComponentVisible==false && this.state.isEnteredPrompt==false){
+            this.setState({tipText:"双击确认所绘选区范围",iconName:'doubleclick'})
+        }
       };
     
     handlePointerMove = (e) => {
@@ -156,6 +161,8 @@ class EditPage extends Component {
         this.setState({
             isComponentVisible: true,
         })
+        this.setState({tipText:"通过输入prompts改变这张图存在的性别偏见",iconName:'enterprompt'})
+        
     };
     
     
@@ -235,6 +242,8 @@ class EditPage extends Component {
             initImagesBase64: imageToBase64,
             prompt: prompt,
             isLoading: true,
+            tipText:'',
+            iconName:'none',
             // isEnteredPrompt: true,
           }, () => {
             this.generateImageBySdAPI();
@@ -437,6 +446,14 @@ class EditPage extends Component {
             localStorage.setItem('leaveTime', new Date().getTime());
         };
 
+        // let tipText=''
+        // if (isComponentVisible==false && this.state.isEnteredPrompt==false){
+        //     tipText='请涂抹出你认为存在性别偏见的地方'
+        // }
+        // else if(isComponentVisible==true && this.state.isEnteredPrompt==false){
+
+        // }
+
         return (
             <div className="editPage" onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}> 
                  <ConfigProvider
@@ -455,13 +472,26 @@ class EditPage extends Component {
                             <h1 className="intro">
                                 {intro}
                             </h1>
+                            <div className='tipicon'> 
+                                <img
+                                    src={require(`./${this.state.iconName}.svg`)} 
+                                    className="icon-image"
+                                    alt=""
+                                />
+                            </div>
+                            <span className='tips'>
+                                {this.state.tipText}
+                            </span>
                             
+
+
                             {/* 先选，选了再出现 */}
                             {isComponentVisible && (
+                                
                                 <div style={{
                                         position:'absolute',
                                         top:'1246px',
-                                        // left:'317px',
+                                        // left:'31  CFFD7px',
                                         left: "50%", 
                                         transform: "translate(-50%, -50%)",
                                         zIndex: 10
@@ -654,7 +684,7 @@ class EditPage extends Component {
                                 onDoubleClick={this.handleDoubleClick}
                                 // onPointerLeave={this.handlePointerUp}
                             />
-                        </div>
+                    </div>
                 </Spin>
                 </ConfigProvider>
             </div>
