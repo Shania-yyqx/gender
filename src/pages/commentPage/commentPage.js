@@ -37,7 +37,7 @@ class CommentPage extends Component {
         console.log("comment value:", comment);
       }
       this.props.addComment(this.props.currentImageIndex - 1, comment)
-      const picNum=34; 
+      const picNum=63; 
       var randomNum = Math.floor(Math.random() * picNum) + 1;
       this.props.updateCurrentImageID(randomNum)
       const history = this.props.history; 

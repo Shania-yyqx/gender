@@ -14,10 +14,11 @@
   
   /* 图片和评论的样式 */
   .image-popup {
-    background-color:rgba(255, 255, 255, 0.8);
+    /* background-color:rgba(255, 255, 255, 0.8); */
     padding: 20px;
     width: 880px; /* 控制图片和评论的宽度 */
     text-align: center;
+    color:aliceblue;
     position: relative;
     z-index: 1000; /* 确保位于蒙版之上 */
   }

@@ -15,13 +15,13 @@ class ImageDisplay extends Component {
   }
 
   render() {
-    console.log("modifyNumList",this.props.modifyNumList)
-    let comments = new Array(34);
+    // console.log("modifyNumList",this.props.modifyNumList)
+    // let comments = new Array(34);
     // comments[0] = ['nice try', 'this is sooo interesting，this is sooo interesting，this is sooo interesting'];
     // comments[2] = ['good choice'];
 
     let modifiedNum = this.props.modifyNumList;
-    let fileNum = 34;
+    let fileNum = 63;
 
     const imagesData = [];
 

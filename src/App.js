@@ -51,40 +51,25 @@ function App() {
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <div>
-      {/* <Switch>
-      <div style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}>
-          <Route exact path="/" component={WelcomePage} />
-      </div>
-      <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}>
-        <Sider width={1740} style={{ backgroundColor: 'black' }}>
-            <Route exact path="/edit" component={EditPage} />
-            <Route exact path="/comment" component={CommentPage} />
-          <PageIcons />
-        </Sider>
-        <Content>
-          <ImageDisplay />
-        </Content>
-      </Layout>
-      </Switch> */}
-       <Switch>
-            <Route exact path="/" component={WelcomePage} />
-            <Route path="/edit" render={() => (
-              <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}>
-                <Sider width={1740} style={{ backgroundColor: 'black' }}>
-                  <Route exact path="/edit" component={EditPage} />
-                  {/* <Route exact path="/comment" component={CommentPage} /> */}
-                  <PageIcons />
-                </Sider>
-                <Content>
+       <Switch> 
+            <Route exact path="/" component={WelcomePage} /> 
+            <Route path="/edit" render={() => ( 
+              <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}> 
+                <Sider width={1740} style={{ backgroundColor: 'black' }}> 
+                  <Route exact path="/edit" component={EditPage} /> 
+                  {/* <Route exact path="/comment" component={CommentPage} /> */} 
+                  <PageIcons /> 
+                </Sider> 
+                <Content> 
                   <ImageDisplay />
                 </Content>
               </Layout>
-            )} />
-            <Route path="/comment" render={() => (
-              <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}>
-                <Sider width={1740} style={{ backgroundColor: 'black' }}>
-                  {/* <Route exact path="/edit" component={EditPage} /> */}
-                  <Route exact path="/comment" component={CommentPage} />
+            )} /> 
+            <Route path="/comment" render={() => ( 
+              <Layout style={{ width: 5120, height: 2880, backgroundColor: 'black', fontFamily: fontStyle }}> 
+                <Sider width={1740} style={{ backgroundColor: 'black' }}> 
+                  {/* <Route exact path="/edit" component={EditPage} /> */} 
+                  <Route exact path="/comment" component={CommentPage} /> 
                   <PageIcons />
                 </Sider>
                 <Content>

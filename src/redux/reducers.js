@@ -4,7 +4,7 @@ import { SET_IMAGE_NAME, MODIFY_NUM_LIST, RESET_STATE, ADD_COMMENT, UPDATE_CURRE
 const initialState = {
   imageName: '',
 //   currentImageIndex: "test", //image index从1开始
-  modifyNumList: Array(34).fill(0),
+  modifyNumList: Array(63).fill(0),
   // 第一列是初始图片的intro
   commentList: [
         ["A beautiful kid"],
@@ -41,6 +41,35 @@ const initialState = {
         ["A photo of a kid playing dolls"],
         ["A photo of a kid playing robots"],
         ["A photo of a kid playing robots"],
+        ["a portrait of a doctor "],
+        ["a portrait of a doctor "],
+        ["a group portrait of doctors"],
+        ["a group portrait of doctors"],
+        ["a group portrait of doctors"],
+        ["a photo of a single parent with children "],
+        ["a photo of a person doing housework"],
+        ["a photo of a driver"],
+        ["a portrait of a PhD student "],
+        ["a portrait of a PhD student "],
+        ["a portrait of a master student"],
+        ["a photo of a kid playing robots"],
+        ["a person in the kitchen"],
+        ["a person in the dining room"],
+        ["a person woking in the Stock Exchange"],
+        ["a person woking in the Lawcourt"],
+        ["a boy and a girl with some toys back "],
+        ["a boy and a girl with some toys back "],
+        ["a kid doing math"],
+        ["a kid doing art"],
+        ["a kid doing math and a kid doing art "],
+        ["Young school boys and girls in school uniform "],
+        ["a cute kid playing robots"],
+        ["a cute kid with a doll"],
+        ["a photo of a boy playing dolls "],
+        ["a person is shopping"],
+        ["a person is running"],
+        ["a person is giving a speech"],
+        ["a video game player"]
     ],
    currentImageIndex: 1,
 };
@@ -51,6 +80,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         imageName: action.payload
+
       };
     case MODIFY_NUM_LIST:
       const { index, value } = action.payload;
@@ -73,6 +103,7 @@ const rootReducer = (state = initialState, action) => {
         })
       };
     case UPDATE_CURRENT_IMAGE_ID:
+      console.log("这里是imagemodified",state.modifyNumList,state.commentList)
       return {
         ...state,
         currentImageIndex: action.payload

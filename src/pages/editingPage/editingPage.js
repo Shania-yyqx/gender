@@ -9,7 +9,7 @@ import { modifyNumList, setImageName, updateCurrentImageID } from '../../redux/a
 
 class EditPage extends Component {
     constructor(props) {
-        const picNum=34; 
+        // const picNum=34; 
         super(props);
         this.state = {
             isComponentVisible: false,
