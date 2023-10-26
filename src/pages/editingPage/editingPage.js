@@ -153,9 +153,10 @@ class EditPage extends Component {
     handleDoubleClick = async () => {
         console.log("in handleDoubleClick")
         this.setState({ drawing: false });
-        const mask = await this.drawMask(this.canvasRef.current, document.querySelector('.editing-image'));
-        // console.log(mask);  // 打印遮罩图像的base64
+        var mask = await this.drawMask(this.canvasRef.current, document.querySelector('.editing-image'));
         this.convertCanvasToBase64(mask);
+        mask = mask.replace(/^data:image\/png;base64,/, "");
+        // console.log("mask", mask);  // 打印遮罩图像的base64
         this.setState({ mask: mask });
         // 显示出prompt输入框
         this.setState({
@@ -224,7 +225,8 @@ class EditPage extends Component {
         
         const imageSrc = require(`../../pictures/image${currentImageIndex}.png`);
         // // 将图片转为base64格式
-        const imageToBase64 = await this.convertImageToBase64(imageSrc);
+        var imageToBase64 = await this.convertImageToBase64(imageSrc);
+        imageToBase64 = imageToBase64.replace(/^data:image\/png;base64,/, "");
         // 获取Input的内容
         // console.log("before this.inputRef.current.value")
         // antd的input组件不能直接通过 this.inputRef.current.value 取值
@@ -259,19 +261,59 @@ class EditPage extends Component {
         const payload = {
             "init_images": [this.state.initImagesBase64],
             "prompt": this.state.prompt,
-            "width": 1448,
-            "height": 2587,
+            "width": 816,
+            "height": 1456,
             "mask": this.state.mask,
             "batch_size": 1,
             "denoising_strength": 0.6,  //重绘幅度
-            "mask_blur": 15,  //蒙版模糊
+            "mask_blur": 0,  //蒙版模糊
             "inpainting_fill": 1,  //蒙版遮住的内容， 0填充， 1原图 2潜空间噪声 3潜空间数值零
             "inpaint_full_res": false,  //inpaint area, False: whole picture True：only masked
-            "cfg_scale": 10,
-            "steps": 25,
+            "inpaint_full_res_padding": 32,  //Only masked padding, pixels 32
+            "inpainting_mask_invert": 0,  //蒙版模式 0重绘蒙版内容 1 重绘非蒙版内容
+            // "initial_noise_multiplier": 0,
+            "cfg_scale": 7,
+            "steps": 30,
             "sampler_name": "DPM++ 2S a Karras",
-            "restore_faces": true,
+            "restore_faces": false,
         };
+        // const payload = {
+        //     "prompt": "a cat sitting on a bench",
+        //     "negative_prompt": null,
+        //     "init_image": ["https://raw.githubusercontent.com/CompVis/stable-diffusion/main/data/inpainting_examples/overture-creations-5sI6fQgYIuo.png"],
+        //     "mask_image": "https://raw.githubusercontent.com/CompVis/stable-diffusion/main/data/inpainting_examples/overture-creations-5sI6fQgYIuo_mask.png",
+        //     "width": "512",
+        //     "height": "512",
+        //     "samples": "1",
+        //     "num_inference_steps": "30",
+        //     "safety_checker": "no",
+        //     "enhance_prompt": "yes",
+        //     "guidance_scale": 7.5,
+        //     "strength": 0.7,
+        //     "seed": null,
+        //     "webhook": null,
+        //     "track_id": null
+        //   }
+        // const payload = {
+        //     "init_images": [this.state.initImagesBase64],
+        //     "prompt": this.state.prompt,
+        //     "width": 816,
+        //     "height": 1456,
+        //     "batch_size": 1,
+        //     "denoising_strength": 0.6,  //重绘幅度
+        //     // "inpainting_fill": 1,  //蒙版遮住的内容， 0填充， 1原图 2潜空间噪声 3潜空间数值零
+        //     // "inpaint_full_res": true,  //inpaint area, False: whole picture True：only masked
+        //     "cfg_scale": 7,
+        //     "steps": 30,
+        //     "sampler_name": "DPM++ 2S a Karras",
+        //     "restore_faces": false,
+        //     "inpaint": {
+        //         "mask": this.state.mask,
+        //         "mask_blur": 25,  //蒙版模糊
+        //         "mask_mode": 1,  //0 means regenerate where is masked; 1 means regenerate where is not masked
+        //         "inpaint_area": 1,  //0 means regenerate whole image, then paste corresponding area back. 1 means only the masked area will be regenereate, then paste corresponding area back.
+        //     }
+        // };
         console.log("payload:", payload)
 
         // const imageID = this.state.randomNum;
@@ -622,6 +664,7 @@ class EditPage extends Component {
                                                     fontSize: '48px'
                                                     }}
                                                     placeholder="请输入prompts" 
+                                                    onPressEnter={this.handlePromptButtonClick} 
                                                 />
                                                 <Button 
                                                     // bordered
